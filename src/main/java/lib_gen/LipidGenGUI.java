@@ -35,6 +35,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
+import app.Resource;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -123,7 +125,7 @@ public class LipidGenGUI extends JInternalFrame {
 		//Set GUI parameters
 		this.setMaximumSize(new Dimension(1260,700));
 		this.setMinimumSize(new Dimension(610,501));
-		setFrameIcon(new ImageIcon(LipidGenGUI.class.getResource("/icons/lg_16_icon.png")));
+		setFrameIcon(new ImageIcon(Resource.getIcon(Resource.LIB_GEN_ICON_16)));
 		setClosable(true);
 		this.setIconifiable(true);
 		setResizable(true);
@@ -157,9 +159,9 @@ public class LipidGenGUI extends JInternalFrame {
 
 		//Load in all configuration files
 		try {
-			readFattyAcids("src/libraries/"+activeLib+"\\FattyAcids.csv");
-			readAdducts("src/libraries/"+activeLib+"\\Adducts.csv");
-			readClass("src/libraries/"+activeLib+"\\Lipid_Classes.csv");
+			readFattyAcids(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/FattyAcids.csv");
+			readAdducts(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Adducts.csv");
+			readClass(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Lipid_Classes.csv");
 
 		} catch (IOException e1) {
 			@SuppressWarnings("unused")
@@ -269,7 +271,7 @@ public class LipidGenGUI extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				updateClassArrays(classTableModel,classTable);
-				writeClassArraytoCSV("src/libraries/"+activeLib+"\\Lipid_Classes.csv");
+				writeClassArraytoCSV(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Lipid_Classes.csv");
 				populateFragClassList(classDropDown);
 				updateOutputTable();
 			}
@@ -415,7 +417,7 @@ public class LipidGenGUI extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				updateAdductArrays(adductTableModel, adductTable);
-				writeAdductArraytoCSV("src/libraries/"+activeLib+"\\Adducts.csv");
+				writeAdductArraytoCSV(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Adducts.csv");
 				populateFragClassList(classDropDown);
 				updateOutputTable();
 			}
@@ -461,8 +463,8 @@ public class LipidGenGUI extends JInternalFrame {
 														.addComponent(adductSaveButton))
 				);
 		adducts.setLayout(gl_adducts);
-		ImageIcon icon = new ImageIcon("src/icons/Book_Icon_White.png");
-		ImageIcon icon2 = new ImageIcon("src/icons/Leaf_Icon.png");
+		ImageIcon icon = new ImageIcon(Resource.getIcon(Resource.BOOK_ICON_WHITE));
+		ImageIcon icon2 = new ImageIcon(Resource.getIcon(Resource.LEAF_ICON));
 		renderer.setClosedIcon(icon);
 		renderer.setOpenIcon(icon);
 		renderer.setLeafIcon(icon2);
@@ -522,9 +524,9 @@ public class LipidGenGUI extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				updateFAArrays((DefaultTableModel)fattyAcidTable.getModel());
-				writeFAArraytoCSV("src/libraries/"+activeLib+"\\FattyAcids.csv");
+				writeFAArraytoCSV(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/FattyAcids.csv");
 				try {
-					readFattyAcids("src/libraries/"+activeLib+"\\FattyAcids.csv");
+					readFattyAcids(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/FattyAcids.csv");
 				} catch (IOException e1) {
 					CustomError ce = new CustomError ("Error saving fatty acids", e1);
 				}
@@ -622,7 +624,7 @@ public class LipidGenGUI extends JInternalFrame {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				saveFragRules("src/libraries/"+activeLib+"\\MS2_Templates.csv");
+				saveFragRules(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/MS2_Templates.csv");
 				updateOutputTable();
 			}
 		});
@@ -633,7 +635,7 @@ public class LipidGenGUI extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				try {
-					ms2Templates = uploadTemplates(false, false,"src/libraries/"+activeLib+"\\MS2_Templates.csv");
+					ms2Templates = uploadTemplates(false, false,Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/MS2_Templates.csv");
 					tree.setModel(renderFragList(tree,false));
 					expandAllNodes(tree);
 				} catch (IOException e1) {
@@ -718,12 +720,12 @@ public class LipidGenGUI extends JInternalFrame {
 				try {
 					//Create progress dialog
 					//Load in all configuration files
-					readFattyAcids("src/libraries/"+activeLib+"\\FattyAcids.csv");
-					readAdducts("src/libraries/"+activeLib+"\\Adducts.csv");
-					readClass("src/libraries/"+activeLib+"\\Lipid_Classes.csv");
+					readFattyAcids(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/FattyAcids.csv");
+					readAdducts(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Adducts.csv");
+					readClass(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Lipid_Classes.csv");
 					populateFattyAcids();
 					populateConsensusClasses();
-					ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"\\MS2_Templates.csv");
+					ms2Templates = uploadTemplates(false, false, Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/MS2_Templates.csv");
 
 					//Create spectrum generator window
 					SpectrumGenerator sg = new SpectrumGenerator(activeLib, null, null, null);
@@ -910,7 +912,7 @@ public class LipidGenGUI extends JInternalFrame {
 							{
 								String output = outputField.getText();
 								//If no field given for outputField, use default directory
-								if (outputField.getText().equals("")) output = "src/msp_files";
+								if (outputField.getText().equals("")) output = Resource.getResourcePath(Resource.MSP_FILES);
 								generateLibrariesBTN.setEnabled(false);
 								runLibGen(combinedOutput.isSelected(), output, (DefaultTableModel)outputTable.getModel());
 								updateGenerationProgress(100,"% - Completed");
@@ -1098,9 +1100,9 @@ public class LipidGenGUI extends JInternalFrame {
 		if (selectedClasses.size()>0)
 		{
 			//Load in all configuration files
-			readFattyAcids("src/libraries/"+activeLib+"\\FattyAcids.csv");
-			readAdducts("src/libraries/"+activeLib+"\\Adducts.csv");
-			readClass("src/libraries/"+activeLib+"\\Lipid_Classes.csv");
+			readFattyAcids(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/FattyAcids.csv");
+			readAdducts(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Adducts.csv");
+			readClass(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Lipid_Classes.csv");
 
 			//Populate all possible FA combinations
 			populateFattyAcids();
@@ -1109,7 +1111,7 @@ public class LipidGenGUI extends JInternalFrame {
 			populateConsensusClasses();
 
 			//Read Template file
-			ms2Templates = uploadTemplates(true, true, "src/libraries/"+activeLib+"\\MS2_Templates.csv");
+			ms2Templates = uploadTemplates(true, true, Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/MS2_Templates.csv");
 
 			//Generate MS2s
 			generateMS2FromTemplate(selectedClasses,transitionTypes);
@@ -1151,7 +1153,7 @@ public class LipidGenGUI extends JInternalFrame {
 		populateConsensusClasses();
 
 		//Read Template file
-		if (!addedNode) ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"\\MS2_Templates.csv");
+		if (!addedNode) ms2Templates = uploadTemplates(false, false, Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/MS2_Templates.csv");
 
 		//Sort templates
 		Collections.sort(ms2Templates);
@@ -1395,7 +1397,7 @@ public class LipidGenGUI extends JInternalFrame {
 					try
 					{
 						//Create filename
-						filename = outputDir+"\\"+ms2Templates.get(i).lipidClass.getName()+".msp";
+						filename = outputDir+"/"+ms2Templates.get(i).lipidClass.getName()+".msp";
 
 						try
 						{
@@ -1406,7 +1408,7 @@ public class LipidGenGUI extends JInternalFrame {
 							SimpleDateFormat extendedName = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 							Date today = Calendar.getInstance().getTime();        
 							String reportDate = extendedName.format(today);
-							pw = new PrintWriter(outputDir+"\\"+ms2Templates.get(i).lipidClass.getName()+reportDate+".msp");
+							pw = new PrintWriter(outputDir+"/"+ms2Templates.get(i).lipidClass.getName()+reportDate+".msp");
 						}
 
 						for (int j=0; j<ms2Templates.get(i).theoreticalLipids.size(); j++)
@@ -1430,7 +1432,7 @@ public class LipidGenGUI extends JInternalFrame {
 			DateFormat df = new SimpleDateFormat("yyyyMMdd");
 			Date today = Calendar.getInstance().getTime();        
 			String reportDate = df.format(today);
-			filename = outputDir+"\\"+activeLib+"_"+reportDate+".msp";
+			filename = outputDir+"/"+activeLib+"_"+reportDate+".msp";
 
 			try
 			{
@@ -1441,7 +1443,7 @@ public class LipidGenGUI extends JInternalFrame {
 				SimpleDateFormat extendedName = new SimpleDateFormat("yyyyMMddHHmmss");
 				today = Calendar.getInstance().getTime();        
 				reportDate = extendedName.format(today);
-				pw = new PrintWriter(outputDir+"\\"+activeLib+"_"+reportDate+".msp");
+				pw = new PrintWriter(outputDir+"/"+activeLib+"_"+reportDate+".msp");
 			}
 
 			for (int i=0; i<ms2Templates.size(); i++)
@@ -2523,8 +2525,8 @@ public class LipidGenGUI extends JInternalFrame {
 	private static void updateOutputTable()
 	{
 		try {
-			readClass("src/libraries/"+activeLib+"/Lipid_Classes.csv");
-			ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"\\MS2_Templates.csv");
+			readClass(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Lipid_Classes.csv");
+			ms2Templates = uploadTemplates(false, false, Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/MS2_Templates.csv");
 
 			//Reset table
 			outputTable.setModel(new DefaultTableModel(

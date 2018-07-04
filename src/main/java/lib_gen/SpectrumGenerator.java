@@ -27,6 +27,9 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+
+import app.Resource;
+
 import javax.swing.JTextField;
 
 
@@ -68,17 +71,17 @@ public class SpectrumGenerator extends JInternalFrame {
 			InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, IOException, CustomException {
 
 		//Populate lipid classes from active library
-		readFattyAcids("src/libraries/"+activeLib+"\\FattyAcids.csv");
-		readAdducts("src/libraries/"+activeLib+"\\Adducts.csv");
-		readClass("src/libraries/"+activeLib+"\\Lipid_Classes.csv");
+		readFattyAcids(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/FattyAcids.csv");
+		readAdducts(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Adducts.csv");
+		readClass(Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/Lipid_Classes.csv");
 		populateFattyAcids();
 		populateConsensusClasses();
-		ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"\\MS2_Templates.csv");
+		ms2Templates = uploadTemplates(false, false, Resource.getResourcePath(Resource.LIBRARIES) + "/" + activeLib + "/MS2_Templates.csv");
 
 		//Set GUI parameters
 		setClosable(true);
 		this.setIconifiable(true);
-		setFrameIcon(new ImageIcon("src/icons/sg_16_icon.png"));
+		setFrameIcon(new ImageIcon(Resource.getIcon(Resource.SPECTRUM_GEN_ICON_16)));
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setTitle("Spectrum Generator");
 		setBounds(100, 100, 415, 460);

@@ -37,6 +37,9 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+
+import app.Resource;
+
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
@@ -79,7 +82,7 @@ public class SpectrumSearcherGUI extends JInternalFrame {
 	public SpectrumSearcherGUI(JLabel label, ImageIcon onImage, ImageIcon offImage) throws IOException {
 
 		//Load all active libraries
-		loadLibraries("src/msp_files");
+		loadLibraries(Resource.getResourcePath(Resource.MSP_FILES));
 
 		//Change menu icon when closed
 		addInternalFrameListener(new InternalFrameAdapter()
@@ -112,7 +115,7 @@ public class SpectrumSearcherGUI extends JInternalFrame {
 		} catch(Exception e) {
 			System.out.println("Error setting native LAF: " + e);
 		}
-		setFrameIcon(new ImageIcon(SpectrumSearcherGUI.class.getResource("/icons/ss_16_icon.png")));
+		setFrameIcon(new ImageIcon(Resource.getIcon(Resource.SPECTRUM_SEARCHER_ICON_16)));
 		setTitle("Spectrum Searcher");
 		setBounds(100, 100, 590, 437);
 		setMinimumSize(new Dimension(585, 325));
@@ -566,7 +569,7 @@ public class SpectrumSearcherGUI extends JInternalFrame {
 	public void refreshLibraryMenu(JTable availableLibsTable, JScrollPane availableLibsScroll)
 	{
 		//Load all active libraries
-		loadLibraries("src/msp_files");
+		loadLibraries(Resource.getResourcePath(Resource.MSP_FILES));
 		
 		//Refresh table
 		availableLibsTable.setModel(new DefaultTableModel(

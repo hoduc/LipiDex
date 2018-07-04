@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -38,6 +37,9 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+
+import app.Resource;
+
 import javax.swing.ImageIcon;
 
 import compound_discoverer.CDPeakFinder;
@@ -95,10 +97,10 @@ public class PeakFinderGUI extends JInternalFrame {
 	@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
 	public PeakFinderGUI(JDesktopPane desktopPane, JLabel label, ImageIcon onImage, ImageIcon offImage) 
 	{
-		setFrameIcon(new ImageIcon("src/icons/pf_16_icon.png"));
+		setFrameIcon(new ImageIcon(Resource.getIcon(Resource.PEAK_FINDER_ICON_16)));
 		File cdFile = null;
 		try {
-			readAdducts("src/peak_finder/Possible_Adducts.csv");
+			readAdducts(Resource.getResourcePath(Resource.PEAK_FINDER_POSSIBLE_ADDUCTS));
 		} catch (IOException e3) {
 			CustomError ce = new CustomError ("Error reading adduct table", e3);
 		}

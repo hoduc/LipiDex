@@ -1,3 +1,4 @@
+package app;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -35,9 +36,10 @@ import javax.swing.JDesktopPane;
 import peak_finder.PeakFinderGUI;
 import spectrum_searcher.SpectrumSearcherGUI;
 
-@SuppressWarnings("serial")
-public class MainWindow extends JFrame {
 
+
+@SuppressWarnings("serial")
+public class MainWindow extends JFrame {	
 	private JDesktopPane contentPane;					//Main DesktopPane to add internal frames to
 	private JPanel final_pane;							//
 	private LipidGenGUI lg;						//Library generator instance
@@ -83,16 +85,16 @@ public class MainWindow extends JFrame {
 		final_pane.add(contentPane, BorderLayout.CENTER);
 		
 		//Add menu labels
-		JLabel ss_menu_Label = new JLabel(new ImageIcon("src/icons/ss_menu.png"));
-		JLabel pf_menu_Label = new JLabel(new ImageIcon("src/icons/pf_menu.png"));
-		JLabel lg_menu_Label = new JLabel(new ImageIcon("src/icons/lg_menu.png"));
-		JLabel sg_menu_Label = new JLabel(new ImageIcon("src/icons/sg_menu.png"));
+		JLabel ss_menu_Label = new JLabel(new ImageIcon(Resource.getIcon(Resource.SPEAKTRUM_SEARCHER_MENU_ICON)));
+		JLabel pf_menu_Label = new JLabel(new ImageIcon(Resource.getIcon(Resource.PEAK_FINDER_MENU_ICON)));
+		JLabel lg_menu_Label = new JLabel(new ImageIcon(Resource.getIcon(Resource.LIB_GEN_MENU_ICON)));
+		JLabel sg_menu_Label = new JLabel(new ImageIcon(Resource.getIcon(Resource.SPECTRUM_GEN_MENU_ICON)));
 		
 		//Initialize spectrum searcher
 		try {
 			ss = new SpectrumSearcherGUI(ss_menu_Label,
-					new ImageIcon("src/icons/ss_menu_open.png"),
-					new ImageIcon("src/icons/ss_menu.png"));
+					new ImageIcon(Resource.getIcon(Resource.SPECTRUM_SEARCHER_OPEN_MENU_ICON)),
+					new ImageIcon(Resource.getIcon(Resource.SPEAKTRUM_SEARCHER_MENU_ICON)));
 		} catch (IOException e2) {
 			@SuppressWarnings("unused")
 			CustomError e = new CustomError("Could not access GUI files", e2);
@@ -106,7 +108,7 @@ public class MainWindow extends JFrame {
 					ss.setIcon(false);
 					ss.setVisible(true);
 					ss.toFront();
-					ss_menu_Label.setIcon(new ImageIcon("src/icons/ss_menu_open.png"));
+					ss_menu_Label.setIcon(new ImageIcon(Resource.SPECTRUM_SEARCHER_OPEN_MENU_ICON));
 				} catch (PropertyVetoException e) 
 				{
 					@SuppressWarnings("unused")
@@ -121,23 +123,23 @@ public class MainWindow extends JFrame {
 
 		//Initialize Peak Finder
 		pf = new PeakFinderGUI(contentPane, pf_menu_Label,
-				new ImageIcon("src/icons/pf_menu_open.png"),
-				new ImageIcon("src/icons/pf_menu.png"));
+				new ImageIcon(Resource.getIcon(Resource.PEAK_FINDER_OPEN_MENU_ICON)),
+				new ImageIcon(Resource.getIcon(Resource.PEAK_FINDER_MENU_ICON)));
 		pf.setNormalBounds(new Rectangle(1, 1, 579, 685));
 		pf.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		pf.setVisible(false);
 		contentPane.add(pf);
 
 		//Initialize LipiDex and Coon Lab logo
-		ld_logo = new JLabel(new ImageIcon("src/icons/LipiDex_Logo.png"));
-		coon_logo = new JLabel(new ImageIcon("src/icons/Coon_Lab_Logo.png"));
+		ld_logo = new JLabel(new ImageIcon(Resource.getIcon(Resource.LIPIDEX_LOGO_ICON)));
+		coon_logo = new JLabel(new ImageIcon(Resource.getIcon(Resource.COON_LAB_LOGO_ICON)));
 		coon_logo.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent evt)
 			{
 				URI uri = null;
 				try {
-					uri = new URI("http://coonlabs.com/");
+					uri = new URI(Resource.COON_LAB_URL);
 				} catch (URISyntaxException e) {
 				}
 				Desktop desktop = Desktop.getDesktop();
@@ -151,12 +153,12 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				coon_logo.setIcon(new ImageIcon("src/icons/Coon_Lab_Logo_Hover.png"));
+				coon_logo.setIcon(new ImageIcon(Resource.getIcon(Resource.COON_LAB_LOGO_HOVER_ICON)));
 			}
 
 			@Override
 			public void mouseExited(java.awt.event.MouseEvent evt) {
-				coon_logo.setIcon(new ImageIcon("src/icons/Coon_Lab_Logo.png"));
+				coon_logo.setIcon(new ImageIcon(Resource.getIcon(Resource.COON_LAB_LOGO_ICON)));
 			}
 		});
 
@@ -179,9 +181,9 @@ public class MainWindow extends JFrame {
 					//If library searcher window opened and no active library generator
 					if(ls !=null && (ls.lg == null || !ls.lg.isVisible()))
 					{
-							ls = new LibrarySelector(getLibraries("src/libraries"), selectedLibrary, lg, 
-									contentPane, lg_menu_Label, new ImageIcon("src/icons/lg_menu_open.png"), 
-									new ImageIcon("src/icons/lg_menu.png"));
+							ls = new LibrarySelector(getLibraries(Resource.getResourcePath(Resource.LIBRARIES)), selectedLibrary, lg, 
+									contentPane, lg_menu_Label, new ImageIcon(Resource.getIcon(Resource.LIB_GEN_OPEN_MENU_ICON)), 
+									new ImageIcon(Resource.getIcon(Resource.LIB_GEN_MENU_ICON)));
 							ls.setVisible(true);
 							ls.setIcon(false);
 							ls.setSelected(true);
@@ -191,9 +193,9 @@ public class MainWindow extends JFrame {
 					//If no library searcher every opened
 					else if ((ls == null))
 					{
-						ls = new LibrarySelector(getLibraries("src/libraries"), selectedLibrary, lg, 
-								contentPane, lg_menu_Label, new ImageIcon("src/icons/lg_menu_open.png"), 
-								new ImageIcon("src/icons/lg_menu.png"));
+						ls = new LibrarySelector(getLibraries(Resource.getResourcePath(Resource.LIBRARIES)), selectedLibrary, lg, 
+								contentPane, lg_menu_Label, new ImageIcon(Resource.getIcon(Resource.LIB_GEN_OPEN_MENU_ICON)), 
+								new ImageIcon(Resource.getIcon(Resource.LIB_GEN_MENU_ICON)));
 						ls.setVisible(true);
 						ls.setIcon(false);
 						ls.setSelected(true);
@@ -214,7 +216,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		toolbar_menu.add(lg_menu_Label);
-		JLabel separatorLabel2 = new JLabel(new ImageIcon("src/icons/menu_separator.png"));
+		JLabel separatorLabel2 = new JLabel(new ImageIcon(Resource.getIcon(Resource.MENU_SEPARATOR)));
 		toolbar_menu.add(separatorLabel2);
 
 		sg_menu_Label.addMouseListener(new MouseAdapter()
@@ -224,9 +226,9 @@ public class MainWindow extends JFrame {
 			{
 				try 
 				{
-					ls = new LibrarySelector(getLibraries("src/libraries"), selectedLibrary, sg, 
-							contentPane, sg_menu_Label, new ImageIcon("src/icons/sg_menu_open.png"), 
-							new ImageIcon("src/icons/sg_menu.png"));
+					ls = new LibrarySelector(getLibraries(Resource.getResourcePath(Resource.LIBRARIES)), selectedLibrary, sg, 
+							contentPane, sg_menu_Label, new ImageIcon(Resource.getIcon(Resource.SPECTRUM_GEN_OPEN_MENU_ICON)), 
+							new ImageIcon(Resource.getIcon(Resource.SPECTRUM_GEN_MENU_ICON)));
 					ls.setVisible(true);
 					ls.setIcon(false);
 					ls.setSelected(true);
@@ -239,10 +241,10 @@ public class MainWindow extends JFrame {
 			}
 		});
 		toolbar_menu.add(sg_menu_Label);
-		JLabel separatorLabel4 = new JLabel(new ImageIcon("src/icons/menu_separator.png"));
+		JLabel separatorLabel4 = new JLabel(new ImageIcon(Resource.getIcon(Resource.MENU_SEPARATOR)));
 		toolbar_menu.add(separatorLabel4);
 		toolbar_menu.add(ss_menu_Label);
-		JLabel separatorLabel5 = new JLabel(new ImageIcon("src/icons/menu_separator.png"));
+		JLabel separatorLabel5 = new JLabel(new ImageIcon(Resource.getIcon(Resource.MENU_SEPARATOR)));
 		toolbar_menu.add(separatorLabel5);
 		pf_menu_Label.addMouseListener(new MouseAdapter()
 		{
@@ -253,7 +255,7 @@ public class MainWindow extends JFrame {
 					pf.setIcon(false);
 					pf.setVisible(true);
 					pf.toFront();
-					pf_menu_Label.setIcon(new ImageIcon("src/icons/pf_menu_open.png"));
+					pf_menu_Label.setIcon(new ImageIcon(Resource.getIcon(Resource.PEAK_FINDER_OPEN_MENU_ICON)));
 				} catch (PropertyVetoException e) {
 					@SuppressWarnings("unused")
 					CustomError e1 = new CustomError(e.getLocalizedMessage(), null);
@@ -261,7 +263,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		toolbar_menu.add(pf_menu_Label);
-		JLabel separatorLabel6 = new JLabel(new ImageIcon("src/icons/menu_separator.png"));
+		JLabel separatorLabel6 = new JLabel(new ImageIcon(Resource.getIcon(Resource.MENU_SEPARATOR)));
 		toolbar_menu.add(separatorLabel6);
 		toolbar_menu.setVisible(false);
 
@@ -290,22 +292,22 @@ public class MainWindow extends JFrame {
 
 		
 		//Initialize top menu labels and functionality
-		JLabel library_generator_label = new JLabel(new ImageIcon("src/icons/library_generator_icon.png"));
+		JLabel library_generator_label = new JLabel(new ImageIcon(Resource.getIcon(Resource.LIB_GEN_ICON)));
 		library_generator_label.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent evt)
 			{
 				//library_generator_label.setIcon(new ImageIcon("src/icons/library_generator_icon_gray.png"));
-				clickAnimation(library_generator_label, "src/icons/library_generator_icon_gray.png");
+				clickAnimation(library_generator_label, Resource.getIconPath(Resource.LIB_GEN_GRAY_ICON));
 				closeMainMenu();
 
 				try {
 					//If library searcher window opened and no active library generator
 					if(ls !=null && (ls.lg == null || !ls.lg.isVisible()))
 					{
-							ls = new LibrarySelector(getLibraries("src/libraries"), selectedLibrary, lg, 
-									contentPane, lg_menu_Label, new ImageIcon("src/icons/lg_menu_open.png"), 
-									new ImageIcon("src/icons/lg_menu.png"));
+							ls = new LibrarySelector(getLibraries(Resource.getResourcePath(Resource.LIBRARIES)), selectedLibrary, lg, 
+									contentPane, lg_menu_Label, new ImageIcon(Resource.getIcon(Resource.LIB_GEN_OPEN_MENU_ICON)), 
+									new ImageIcon(Resource.getIcon(Resource.LIB_GEN_MENU_ICON)));
 							ls.setVisible(true);
 							ls.setIcon(false);
 							ls.setSelected(true);
@@ -315,9 +317,9 @@ public class MainWindow extends JFrame {
 					//If no library searcher every opened
 					else if ((ls == null))
 					{
-						ls = new LibrarySelector(getLibraries("src/libraries"), selectedLibrary, lg, 
-								contentPane, lg_menu_Label, new ImageIcon("src/icons/lg_menu_open.png"), 
-								new ImageIcon("src/icons/lg_menu.png"));
+						ls = new LibrarySelector(getLibraries(Resource.getResourcePath(Resource.LIBRARIES)), selectedLibrary, lg, 
+								contentPane, lg_menu_Label, new ImageIcon(Resource.getIcon(Resource.LIB_GEN_OPEN_MENU_ICON)), 
+								new ImageIcon(Resource.getIcon(Resource.LIB_GEN_MENU_ICON)));
 						ls.setVisible(true);
 						ls.setIcon(false);
 						ls.setSelected(true);
@@ -340,26 +342,26 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				library_generator_label.setIcon(new ImageIcon("src/icons/library_generator_icon_gray.png"));
+				library_generator_label.setIcon(new ImageIcon(Resource.getIcon(Resource.LIB_GEN_GRAY_ICON)));
 			}
 
 			@Override
 			public void mouseExited(java.awt.event.MouseEvent evt) {
-				library_generator_label.setIcon(new ImageIcon("src/icons/library_generator_icon.png"));
+				library_generator_label.setIcon(new ImageIcon(Resource.getIcon(Resource.LIB_GEN_ICON)));
 			}
 		});
 
 
-		JLabel spectrum_generator_label = new JLabel(new ImageIcon("src/icons/spectrum_generator_icon.png"));
+		JLabel spectrum_generator_label = new JLabel(new ImageIcon(Resource.getIcon(Resource.SPECTRUM_GEN_ICON)));
 		spectrum_generator_label.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent evt)
 			{
 				try {
 					closeMainMenu();
-					ls = new LibrarySelector(getLibraries("src/libraries"), selectedLibrary, sg, 
-							contentPane, sg_menu_Label, new ImageIcon("src/icons/sg_menu_open.png"), 
-							new ImageIcon("src/icons/sg_menu.png"));
+					ls = new LibrarySelector(getLibraries(Resource.getResourcePath(Resource.LIBRARIES)), selectedLibrary, sg, 
+							contentPane, sg_menu_Label, new ImageIcon(Resource.getIcon(Resource.SPECTRUM_GEN_OPEN_MENU_ICON)), 
+							new ImageIcon(Resource.getIcon(Resource.SPECTRUM_GEN_MENU_ICON)));
 					ls.setIcon(false);
 					ls.setVisible(true);
 					ls.setSelected(true);
@@ -377,16 +379,16 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				spectrum_generator_label.setIcon(new ImageIcon("src/icons/spectrum_generator_icon_gray.png"));
+				spectrum_generator_label.setIcon(new ImageIcon(Resource.getIcon(Resource.SPECTRUM_GEN_GRAY_ICON)));
 			}
 
 			@Override
 			public void mouseExited(java.awt.event.MouseEvent evt) {
-				spectrum_generator_label.setIcon(new ImageIcon("src/icons/spectrum_generator_icon.png"));
+				spectrum_generator_label.setIcon(new ImageIcon(Resource.getIcon(Resource.SPECTRUM_GEN_ICON)));
 			}
 		});
 
-		JLabel spectrum_searcher_label = new JLabel(new ImageIcon("src/icons/spectrum_searcher_icon.png"));
+		JLabel spectrum_searcher_label = new JLabel(new ImageIcon(Resource.getIcon(Resource.SPECTRUM_SEARCHER_ICON)));
 		spectrum_searcher_label.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent evt)
@@ -397,7 +399,7 @@ public class MainWindow extends JFrame {
 					ss.setIcon(false);
 					ss.setVisible(true);
 					ss.toFront();
-					ss_menu_Label.setIcon(new ImageIcon("src/icons/ss_menu_open.png"));
+					ss_menu_Label.setIcon(new ImageIcon(Resource.getIcon(Resource.SPEAKTRUM_SEARCHER_MENU_ICON)));
 				} catch (PropertyVetoException e) {
 					@SuppressWarnings("unused")
 					CustomError e1 = new CustomError(e.getLocalizedMessage(), null);
@@ -408,17 +410,17 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				spectrum_searcher_label.setIcon(new ImageIcon("src/icons/spectrum_searcher_icon_gray.png"));
+				spectrum_searcher_label.setIcon(new ImageIcon(Resource.getIcon(Resource.SPEAKTRUM_SEARCHER_GRAY_ICON)));
 			}
 
 			@Override
 			public void mouseExited(java.awt.event.MouseEvent evt) {
-				spectrum_searcher_label.setIcon(new ImageIcon("src/icons/spectrum_searcher_icon.png"));
+				spectrum_searcher_label.setIcon(new ImageIcon(Resource.getIcon(Resource.SPECTRUM_SEARCHER_ICON)));
 			}
 		});
 
 
-		JLabel peak_finder_label = new JLabel(new ImageIcon("src/icons/peak_finder_icon.png"));
+		JLabel peak_finder_label = new JLabel(new ImageIcon(Resource.getIcon(Resource.PEAK_FINDER_ICON)));
 		peak_finder_label.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent evt)
@@ -428,7 +430,7 @@ public class MainWindow extends JFrame {
 					pf.setIcon(false);
 					pf.setVisible(true);
 					pf.toFront();
-					pf_menu_Label.setIcon(new ImageIcon("src/icons/pf_menu_open.png"));
+					pf_menu_Label.setIcon(new ImageIcon(Resource.getIcon(Resource.PEAK_FINDER_OPEN_MENU_ICON)));
 				} catch (PropertyVetoException e) {
 					@SuppressWarnings("unused")
 					CustomError e1 = new CustomError(e.getLocalizedMessage(), null);
@@ -439,12 +441,12 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				peak_finder_label.setIcon(new ImageIcon("src/icons/peak_finder_icon_gray.png"));
+				peak_finder_label.setIcon(new ImageIcon(Resource.getIcon(Resource.PEAK_FINDER_GRAY_ICON)));
 			}
 
 			@Override
 			public void mouseExited(java.awt.event.MouseEvent evt) {
-				peak_finder_label.setIcon(new ImageIcon("src/icons/peak_finder_icon.png"));
+				peak_finder_label.setIcon(new ImageIcon(Resource.getIcon(Resource.PEAK_FINDER_ICON)));
 			}
 		});
 
@@ -486,8 +488,8 @@ public class MainWindow extends JFrame {
 		//Set window icon
 		try {
 			List<Image> icons = new ArrayList<Image>();
-			icons.add(ImageIO.read(new File("src/icons/LipiDex_Icon_Blue_48.png")));
-			icons.add(ImageIO.read(new File("src/icons/LipiDex_Icon_Blue_16.png")));
+			icons.add(ImageIO.read(new File(Resource.getIconPath(Resource.LIPID_ICON_BLUE_48))));
+			icons.add(ImageIO.read(new File(Resource.getIconPath(Resource.LIPID_ICON_BLUE_16))));
 			setIconImages(icons);
 			//setIconImage();
 		}

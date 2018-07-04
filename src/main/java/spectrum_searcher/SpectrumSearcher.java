@@ -20,6 +20,7 @@ import lib_gen.TransitionType;
 
 import javax.swing.JProgressBar;
 
+import app.Resource;
 import lib_gen.FattyAcid;
 
 public class SpectrumSearcher 
@@ -83,7 +84,7 @@ public class SpectrumSearcher
 		checkFileStatus();
 
 		//Read fatty acids
-		readFattyAcids("src\\backup\\FattyAcids.csv");
+		readFattyAcids(Resource.getResourcePath(Resource.BACKUP) + "/FattyAcids.csv");
 
 		//Read in MSP Files
 		try
@@ -403,7 +404,7 @@ public class SpectrumSearcher
 		File resultsDir = new File(parentFolder);
 		if (!resultsDir.exists()) resultsDir.mkdir();
 
-		PrintWriter pw = new PrintWriter(resultsDir.toString()+"\\"+resultFileName);
+		PrintWriter pw = new PrintWriter(resultsDir.toString()+"/"+resultFileName);
 
 		pw.println("MS2 ID,Retention Time (min),Rank,Identification,"
 				+ "Precursor Mass,Library Mass,Delta m/z,Dot Product,Reverse Dot Product,Purity,Spectral Components,Optimal Polarity,LipiDex Spectrum,Library,Potential Fragments");
