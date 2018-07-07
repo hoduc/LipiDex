@@ -487,9 +487,9 @@ public class MainWindow extends JFrame {
 
 		//Set window icon
 		try {
-			List<Image> icons = new ArrayList<Image>();
-			icons.add(ImageIO.read(new File(Resource.getIconPath(Resource.LIPID_ICON_BLUE_48))));
-			icons.add(ImageIO.read(new File(Resource.getIconPath(Resource.LIPID_ICON_BLUE_16))));
+			List<Image> icons = new ArrayList<Image>();			
+			icons.add(ImageIO.read(Resource.getIconStream(Resource.LIPID_ICON_BLUE_48)));
+			icons.add(ImageIO.read(Resource.getIconStream(Resource.LIPID_ICON_BLUE_16)));
 			setIconImages(icons);
 			//setIconImage();
 		}
