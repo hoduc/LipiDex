@@ -7,7 +7,8 @@ import java.net.URL;
 public class Resource {
 	// Icons
 	private static String RESOURCE_ICONS = "icons";
-
+	
+	// Libraries
 	public static String LIBRARIES = "libraries";
 	public static String MSP_FILES = "msp_files";
 	public static String BACKUP = "backup";
@@ -42,28 +43,25 @@ public class Resource {
 	public static String PEAK_FINDER_ICON = "/peak_finder_icon.png";
 	public static String PEAK_FINDER_ICON_16 = "/pf_16_icon.png";
 	public static String PEAK_FINDER_GRAY_ICON = "/peak_finder_icon_gray.png";
-	public static String PEAK_FINDER_POSSIBLE_ADDUCTS = "./Possible_Adducts.csv";
+	public static String PEAK_FINDER_POSSIBLE_ADDUCTS = "Possible_Adducts.csv";
 
 	public static String BOOK_ICON_WHITE = "/Book_Icon_White.png";
 	public static String LEAF_ICON = "/Leaf_Icon.png";
 	public static String LIPID_ICON_BLUE_48 = "/LipiDex_Icon_Blue_48.png";
 	public static String LIPID_ICON_BLUE_16 = "/LipiDex_Icon_Blue_16.png";
-
+	
 	private static ClassLoader classLoader = Resource.class.getClassLoader();
 
 	public static URL getResource(String fileName) {
-		System.out.println("===" + classLoader.getResource(fileName) + "===");
 		return classLoader.getResource(fileName);
 	}
-
+	
 	public static String getResourcePath(String fileName) {
-		System.out.println("request:" + fileName);
-		System.out.println("===" + classLoader.getResource(fileName).getPath() + "===");
+		System.out.println("fullPath:" + classLoader.getResource(fileName).getPath());
 		return classLoader.getResource(fileName).getPath();
 	}
 
 	public static URL getIcon(String fileName) {
-		System.out.println("===" + classLoader.getResource(RESOURCE_ICONS + fileName) + "===");
 		return classLoader.getResource(RESOURCE_ICONS + fileName);
 	}
 	
@@ -72,7 +70,6 @@ public class Resource {
 	}
 
 	public static String getIconPath(String fileName) {
-		System.out.println("===" + classLoader.getResource(RESOURCE_ICONS + fileName).getPath() + "===");
 		return classLoader.getResource(RESOURCE_ICONS + fileName).getPath();
 	}
 }
