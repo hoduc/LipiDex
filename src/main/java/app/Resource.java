@@ -57,11 +57,14 @@ public class Resource {
 	}
 	
 	public static String getResourcePath(String fileName) {
+		System.out.print("request:" + fileName + "=>");
 		System.out.println("fullPath:" + classLoader.getResource(fileName).getPath());
 		return classLoader.getResource(fileName).getPath();
 	}
 
 	public static URL getIcon(String fileName) {
+		System.out.print("request:" + fileName + "=>");
+		System.out.println("fullPath:" + classLoader.getResource(RESOURCE_ICONS + fileName));
 		return classLoader.getResource(RESOURCE_ICONS + fileName);
 	}
 	

@@ -27,13 +27,6 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
 }
 
-sourceSets {
-	main {
-		resources {
-			srcDirs "src/main/resources", "ExternalData"
-		}
-	}
-}
 
 
 
@@ -71,7 +64,7 @@ startScripts {
  	classpath += files('ExternalData/**')
     // Support closures to add an additional element to
     // CLASSPATH definition in the start script files.
-    def configureClasspathVar = { findClasspath, pathSeparator, line ->
+    def configureClasspathVar = { findClasspath, pathSeparator, separator, line ->
  
         // Looking for the line that starts with either CLASSPATH=
         // or set CLASSPATH=, defined by the findClasspath closure argument.
@@ -81,13 +74,13 @@ startScripts {
             // with the configuration directory.
             // Use specified path separator, which is different
             // for Windows or Unix systems.
-            original += "${pathSeparator}/ExternalData"
+            original += "${pathSeparator}\$APP_HOME${separator}ExternalData"
         }
  
     }
  
-    def configureUnixClasspath = configureClasspathVar.curry('CLASSPATH', ':')
-    def configureWindowsClasspath = configureClasspathVar.curry('set CLASSPATH', ';')
+    def configureUnixClasspath = configureClasspathVar.curry('CLASSPATH', ':', '/')
+    def configureWindowsClasspath = configureClasspathVar.curry('set CLASSPATH', ';', '\\')
  
     // The default script content is generated and
     // with the doLast method we can still alter
